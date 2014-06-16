@@ -7,7 +7,7 @@
 */
 Ember.AnimatedContainerView = Ember.ContainerView.extend({
 
-    classNames: ['ember-animated-container'],
+    classNames: ['layer layout-animation'],
     
     init: function() {
         this._super();
@@ -96,6 +96,9 @@ Ember.AnimatedContainerView = Ember.ContainerView.extend({
                     });
                 });
             } else {
+                newView.on('didInsertElement', function() {
+                  newView.$().addClass('current');
+                });
                 if (oldView) {
                     //If there is no effect queued, then just remove the old view (as would normally happen in a ContainerView)
                     this.removeObject(oldView);
