@@ -23,6 +23,16 @@ Ember.AnimatedContainerView = Ember.ContainerView.extend({
         delete Ember.AnimatedContainerView._views[name];
         delete Ember.AnimatedContainerView._animationQueue[name];
     },
+
+    createChildView: function(view, attrs) {
+        view = this._super(view, attrs);
+
+        var itemClassNames = get(view, 'classNames') || [];
+        itemClassNames.push('current');
+        set(view, 'classNames', itemClassNames );
+
+        return view;
+    },
     
     //Override parent method
     _currentViewWillChange: Ember.beforeObserver(function() {
@@ -96,9 +106,6 @@ Ember.AnimatedContainerView = Ember.ContainerView.extend({
                     });
                 });
             } else {
-                newView.on('didInsertElement', function() {
-                  newView.$().addClass('current');
-                });
                 if (oldView) {
                     //If there is no effect queued, then just remove the old view (as would normally happen in a ContainerView)
                     this.removeObject(oldView);
